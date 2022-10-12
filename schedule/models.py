@@ -103,3 +103,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Hotel(models.Model):
     name = models.CharField(_("hotel name"), max_length=255, unique=True)
     address = models.CharField(_("hotel address"), max_length=255, blank=True)
+
+
+class Room(models.Model):
+    hotel = models.ForeignKey(
+        Hotel, on_delete=models.CASCADE)
+    room_number = models.PositiveIntegerField(_("room number"))
