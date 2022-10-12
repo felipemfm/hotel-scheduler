@@ -1,3 +1,4 @@
+from unittest.util import _MAX_LENGTH
 from django.db import models
 
 # Create your models here.
@@ -64,14 +65,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     email = models.EmailField(_('email address'), blank=True, unique=True)
 
-    NORMAL = 'C'
-    BUSINESS = 'B'
-    TYPE_CHOICES = [
-        (NORMAL, 'Normal'),
-        (BUSINESS, 'Business')
-    ]
-    account_type = models.CharField(_('account type'), max_length=1,
-                                    choices=TYPE_CHOICES, default=NORMAL)
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -105,3 +98,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None, **kwargs):
         """Send an email to this user."""
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+
+class Hotel(models.Model):
+    name = models.CharField(_("hotel name"), max_length=255, unique=True)
+    address = models.CharField(_("hotel address"), max_length=255, blank=True)
