@@ -114,6 +114,7 @@ class Reservation(models.Model):
     hotel = models.ForeignKey(
         Hotel, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False)
     year = models.PositiveSmallIntegerField(
         _("reservation year"), blank=False, validators=[MinValueValidator(2022)])
     month = models.PositiveSmallIntegerField(_("reservation month"), blank=False, validators=[
