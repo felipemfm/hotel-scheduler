@@ -1,8 +1,7 @@
-from unittest.util import _MAX_LENGTH
+from dataclasses import field
 from django.db import models
-
-# Create your models here.
-
+from django.db.models import UniqueConstraint
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
@@ -109,3 +108,21 @@ class Room(models.Model):
     hotel = models.ForeignKey(
         Hotel, on_delete=models.CASCADE)
     room_number = models.PositiveIntegerField(_("room number"))
+
+
+class Reservation(models.Model):
+    hotel = models.ForeignKey(
+        Hotel, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    year = models.PositiveSmallIntegerField(
+        _("reservation year"), blank=False, validators=[MinValueValidator(2022)])
+    month = models.PositiveSmallIntegerField(_("reservation month"), blank=False, validators=[
+                                             MinValueValidator(1), MaxValueValidator(12)])
+    day = models.PositiveSmallIntegerField(_('reservation day'), blank=False, validators=[
+        MinValueValidator(1), MaxValueValidator(31)])
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=['hotel', 'room', 'year', 'month', 'day'], name='unique_reservation')
+        ]
