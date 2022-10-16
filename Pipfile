@@ -12,6 +12,7 @@ psycopg2 = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 drf-nested-routers = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
