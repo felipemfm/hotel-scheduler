@@ -1,12 +1,21 @@
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { createToken } from "../store/slice/userSlice";
 
-export default function LoginForm() {
+function LoginForm() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
+  const dispatch = useDispatch();
+
   function handleLogin(event) {
     event.preventDefault();
-    console.log(emailRef.current.value);
+    console.log(emailRef.current.value, passwordRef.current.value);
+    const credentials = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+    dispatch(createToken(credentials));
   }
 
   return (
@@ -29,3 +38,5 @@ export default function LoginForm() {
     </form>
   );
 }
+
+export default LoginForm;
