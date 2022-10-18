@@ -8,7 +8,7 @@ function LoginForm() {
   const passwordRef = useRef("");
   const token = useSelector((state) => state.user.token);
   const [cookies, setCookie] = useCookies(["access_token", "refresh_token"]);
-
+  console.log(cookies["access_token"]);
   const dispatch = useDispatch();
 
   function handleLogin(event) {
@@ -17,21 +17,15 @@ function LoginForm() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
-    dispatch(createToken(credentials));
+    dispatch(createToken(credentials)).then(() => {
+      setCookie("access_token", token.access, {
+        path: "/",
+      });
+      setCookie("refresh_token", token.refresh, {
+        path: "/",
+      });
+    });
   }
-
-  useEffect(() => {
-    let expires = new Date();
-    expires.setTime(expires.getTime() + token.expires_in * 1000);
-    setCookie("access_token", token.access, {
-      path: "/",
-      expires,
-    });
-    setCookie("refresh_token", token.refresh, {
-      path: "/",
-      expires,
-    });
-  }, [token]);
 
   return (
     <form className="d-flex input-group" onSubmit={handleLogin}>
