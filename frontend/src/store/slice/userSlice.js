@@ -3,11 +3,7 @@ import axios from "axios";
 
 const initialState = {
   token: "",
-  userObj: {
-    username: "",
-    id: null,
-    email: "",
-  },
+  userObj: null,
   status: "idle",
 };
 
@@ -22,6 +18,15 @@ export const createToken = createAsyncThunk(
   }
 );
 
+export const loginUser = createAsyncThunk("user/loginUser", async (token) => {
+  const response = await axios.get("http://localhost:8000/api/auth/users/me/", {
+    headers: {
+      Authorization: `JWT ${token}`,
+    },
+  });
+  return response.data;
+});
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -33,6 +38,13 @@ export const userSlice = createSlice({
       .addCase(createToken.fulfilled, (state, action) => {
         state.status = "idle";
         state.token = action.payload;
+      })
+      .addCase(loginUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.userObj = action.payload;
       });
   },
 });
