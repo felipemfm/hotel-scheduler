@@ -6,9 +6,11 @@ import { useCookies } from "react-cookie";
 function LoginForm() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
-  const token = useSelector((state) => state.user.token);
   const userObj = useSelector((state) => state.user.userObj);
-  const [cookies, setCookie] = useCookies(["access_token", "refresh_token"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "access_token",
+    "refresh_token",
+  ]);
   const dispatch = useDispatch();
 
   function handleLogin(event) {
@@ -17,14 +19,21 @@ function LoginForm() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
-    dispatch(createToken(credentials)).then(() => {
-      setCookie("access_token", token.access, {
+    dispatch(createToken(credentials)).then((res) => {
+      setCookie("access_token", res.payload.access, {
         path: "/",
       });
-      setCookie("refresh_token", token.refresh, {
+      setCookie("refresh_token", res.payload.refresh, {
         path: "/",
       });
     });
+  }
+
+  function handleLogout(event) {
+    event.preventDefault();
+    removeCookie("access_token");
+    removeCookie("refresh_token");
+    window.location.reload(false);
   }
 
   useEffect(() => {
@@ -34,7 +43,12 @@ function LoginForm() {
   return (
     <div className="d-flex ">
       {userObj ? (
-        <p>Welcome {userObj.username}</p>
+        <form onSubmit={handleLogout}>
+          <span className="navbar-text">Welcome {userObj.username}</span>
+          <button className="btn btn-outline-primary mx-2" type="submit">
+            Logout
+          </button>
+        </form>
       ) : (
         <form className="input-group" onSubmit={handleLogin}>
           <input
