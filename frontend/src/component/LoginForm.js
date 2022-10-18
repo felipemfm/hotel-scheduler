@@ -1,22 +1,37 @@
-import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { createToken } from "../store/slice/userSlice";
+import { useCookies } from "react-cookie";
 
 function LoginForm() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
+  const token = useSelector((state) => state.user.token);
+  const [cookies, setCookie] = useCookies(["access_token", "refresh_token"]);
 
   const dispatch = useDispatch();
 
   function handleLogin(event) {
     event.preventDefault();
-    console.log(emailRef.current.value, passwordRef.current.value);
     const credentials = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
     dispatch(createToken(credentials));
   }
+
+  useEffect(() => {
+    let expires = new Date();
+    expires.setTime(expires.getTime() + token.expires_in * 1000);
+    setCookie("access_token", token.access, {
+      path: "/",
+      expires,
+    });
+    setCookie("refresh_token", token.refresh, {
+      path: "/",
+      expires,
+    });
+  }, [token]);
 
   return (
     <form className="d-flex input-group" onSubmit={handleLogin}>
