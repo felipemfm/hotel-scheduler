@@ -1,14 +1,14 @@
 import { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createToken } from "../store/slice/userSlice";
+import { createToken, loginUser } from "../store/slice/userSlice";
 import { useCookies } from "react-cookie";
 
 function LoginForm() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const token = useSelector((state) => state.user.token);
+  const userObj = useSelector((state) => state.user.userObj);
   const [cookies, setCookie] = useCookies(["access_token", "refresh_token"]);
-  console.log(cookies["access_token"]);
   const dispatch = useDispatch();
 
   function handleLogin(event) {
@@ -27,24 +27,34 @@ function LoginForm() {
     });
   }
 
+  useEffect(() => {
+    if (cookies.access_token) dispatch(loginUser(cookies.access_token));
+  }, [cookies.access_token]);
+
   return (
-    <form className="d-flex input-group" onSubmit={handleLogin}>
-      <input
-        className="form-control"
-        placeholder="user@email.com"
-        type="email"
-        ref={emailRef}
-      />
-      <input
-        className="form-control"
-        placeholder="password"
-        type="password"
-        ref={passwordRef}
-      />
-      <button className="btn btn-outline-primary" type="submit">
-        Login
-      </button>
-    </form>
+    <div className="d-flex ">
+      {userObj ? (
+        <p>Welcome {userObj.username}</p>
+      ) : (
+        <form className="input-group" onSubmit={handleLogin}>
+          <input
+            className="form-control"
+            placeholder="user@email.com"
+            type="email"
+            ref={emailRef}
+          />
+          <input
+            className="form-control"
+            placeholder="password"
+            type="password"
+            ref={passwordRef}
+          />
+          <button className="btn btn-outline-primary" type="submit">
+            Login
+          </button>
+        </form>
+      )}
+    </div>
   );
 }
 
