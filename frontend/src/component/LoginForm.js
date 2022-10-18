@@ -38,6 +38,7 @@ function LoginForm() {
 
   useEffect(() => {
     if (cookies.access_token) dispatch(loginUser(cookies.access_token));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookies.access_token]);
 
   return (

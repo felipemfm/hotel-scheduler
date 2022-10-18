@@ -1,7 +1,7 @@
 import React from "react";
 import LoginForm from "../component/LoginForm";
 
-export default function NavBar() {
+function NavBar() {
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-light">
@@ -17,3 +17,5 @@ export default function NavBar() {
     </div>
   );
 }
+
+export default NavBar;
