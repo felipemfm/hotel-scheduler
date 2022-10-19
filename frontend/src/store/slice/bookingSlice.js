@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   hotels: [],
+  hotel: null,
   rooms: [],
   status: "idle",
 };
@@ -28,6 +29,11 @@ export const fetchRoomData = createAsyncThunk(
 export const bookingSlice = createSlice({
   name: "user",
   initialState,
+  reducers: {
+    setHotelId: (state, action) => {
+      state.hotel = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchHotelData.pending, (state) => {
@@ -46,5 +52,7 @@ export const bookingSlice = createSlice({
       });
   },
 });
+
+export const { setHotelId } = bookingSlice.actions;
 
 export default bookingSlice.reducer;
