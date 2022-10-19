@@ -2,22 +2,24 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  hotel: [],
+  hotels: [],
+  rooms: [],
   status: "idle",
 };
 
 export const fetchHotelData = createAsyncThunk(
   "booking/fetchHotelData",
-  async (token) => {
+  async () => {
+    const response = await axios.get("http://localhost:8000/schedule/hotels/");
+    return response.data;
+  }
+);
+
+export const fetchRoomData = createAsyncThunk(
+  "booking/fetchRoomData",
+  async (hotelId) => {
     const response = await axios.get(
-      "http://localhost:8000/schedule/hotels/",
-      token
-        ? {
-            headers: {
-              Authorization: `JWT ${token}`,
-            },
-          }
-        : ""
+      `http://localhost:8000/schedule/hotels/${hotelId}/rooms`
     );
     return response.data;
   }
@@ -33,7 +35,14 @@ export const bookingSlice = createSlice({
       })
       .addCase(fetchHotelData.fulfilled, (state, action) => {
         state.status = "idle";
-        state.hotel = action.payload;
+        state.hotels = action.payload;
+      })
+      .addCase(fetchRoomData.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchRoomData.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.rooms = action.payload;
       });
   },
 });
