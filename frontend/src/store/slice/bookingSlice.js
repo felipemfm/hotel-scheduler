@@ -21,7 +21,7 @@ export const fetchRoomData = createAsyncThunk(
   "booking/fetchRoomData",
   async (hotelId) => {
     const response = await axios.get(
-      `http://localhost:8000/schedule/hotels/${hotelId}/rooms`
+      `http://localhost:8000/schedule/hotels/${hotelId}/rooms/`
     );
     return response.data;
   }
