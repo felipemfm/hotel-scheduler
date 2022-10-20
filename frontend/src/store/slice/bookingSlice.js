@@ -3,9 +3,9 @@ import axios from "axios";
 
 const initialState = {
   hotels: [],
-  hotel: null,
+  hotelObj: {},
   rooms: [],
-  room: null,
+  roomObj: {},
   status: "idle",
 };
 
@@ -31,11 +31,11 @@ export const bookingSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setHotelId: (state, action) => {
-      state.hotel = action.payload;
+    setHotelObj: (state, action) => {
+      state.hotelObj = action.payload;
     },
-    setRoomId: (state, action) => {
-      state.room = action.payload;
+    setRoomObj: (state, action) => {
+      state.roomObj = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -57,6 +57,6 @@ export const bookingSlice = createSlice({
   },
 });
 
-export const { setHotelId, setRoomId } = bookingSlice.actions;
+export const { setHotelObj, setRoomObj } = bookingSlice.actions;
 
 export default bookingSlice.reducer;
