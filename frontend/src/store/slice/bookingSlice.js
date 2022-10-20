@@ -34,6 +34,9 @@ export const bookingSlice = createSlice({
     setHotelId: (state, action) => {
       state.hotel = action.payload;
     },
+    setRoomId: (state, action) => {
+      state.room = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -54,6 +57,6 @@ export const bookingSlice = createSlice({
   },
 });
 
-export const { setHotelId } = bookingSlice.actions;
+export const { setHotelId, setRoomId } = bookingSlice.actions;
 
 export default bookingSlice.reducer;
