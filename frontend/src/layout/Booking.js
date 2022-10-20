@@ -3,11 +3,12 @@ import HotelSelect from "../component/HotelSelect";
 
 function Booking() {
   return (
-    <div className="row">
-      <div className="col-4">
-        <HotelSelect />
+    <div>
+      <HotelSelect />
+      <div className="row">
+        <div className="col"></div>
+        <div className="col"></div>
       </div>
-      <div className="col-8"></div>
     </div>
   );
 }

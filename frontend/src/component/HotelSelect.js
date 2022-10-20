@@ -13,9 +13,9 @@ function HotelSelect() {
   }, []);
 
   return (
-    <div className="input-group">
+    <div className="input-group w-50 m-5 align-items-center mx-auto">
       <select
-        className="form-select"
+        className="form-select "
         onChange={(e) =>
           e.target.value !== "Select a Hotel" && setHotel(e.target.value)
         }

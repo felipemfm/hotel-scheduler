@@ -5,6 +5,7 @@ const initialState = {
   hotels: [],
   hotel: null,
   rooms: [],
+  room: null,
   status: "idle",
 };
 
