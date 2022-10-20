@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchHotelData, setHotelId } from "../store/slice/bookingSlice";
+import { fetchHotelData, setHotelObj } from "../store/slice/bookingSlice";
 
 function HotelSelect() {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ function HotelSelect() {
       <button
         className="btn btn-outline-secondary"
         type="button"
-        onClick={() => dispatch(setHotelId(hotel))}
+        onClick={() => dispatch(setHotelObj(hotelData[hotel - 1]))}
       >
         Select
       </button>
