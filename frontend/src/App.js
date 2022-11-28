@@ -3,9 +3,11 @@ import Booking from "./layout/Booking";
 
 function App() {
   return (
-    <div className="container">
+    <div>
       <NavBar />
-      <Booking />
+      <div className="container">
+        <Booking />
+      </div>
     </div>
   );
 }
