@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRoomData, setRoomObj } from "../store/slice/bookingSlice";
+import { fetchRoomData } from "../store/slice/bookingSlice";
+import roomImg from "../images/room.jpg";
 
 function RoomSelect() {
   const dispatch = useDispatch();
@@ -15,18 +16,19 @@ function RoomSelect() {
   return (
     <div>
       <h1>Select a Room</h1>
-      <div className="card">
-        <ul className="list-group list-group-flush">
-          {roomData &&
-            roomData.map((element) => {
-              return element.hotel === hotelObj.id ? (
-                <li key={element.id} className="list-group-item">
-                  {element.room_number}
-                </li>
-              ) : null;
-            })}
-        </ul>
-      </div>
+      {roomData &&
+        roomData.map((element) => (
+          <div key={element.id} className="mb-5">
+            {element.hotel === hotelObj.id && (
+              <div className="card">
+                <img src={roomImg} className="card-img-top" alt="room option" />
+                <div className="card-body">
+                  <p className="card-text text-center fs-3">{element.room_number}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
     </div>
   );
 }
