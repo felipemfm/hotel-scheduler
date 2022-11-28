@@ -6,7 +6,7 @@ function Booking() {
     <div>
       <HotelSelect />
       <div className="row">
-        <div className="col">
+        <div className="col-4">
           <RoomSelect />
         </div>
         <div className="col"></div>
