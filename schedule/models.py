@@ -99,17 +99,26 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Hotel(models.Model):
+    """Hotel object"""
     name = models.CharField(_("hotel name"), max_length=255, unique=True)
     address = models.CharField(_("hotel address"), max_length=255, blank=True)
 
 
 class Room(models.Model):
+    """Hotel room object"""
     hotel = models.ForeignKey(
         Hotel, on_delete=models.CASCADE)
     room_number = models.PositiveIntegerField(_("room number"))
 
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=['hotel', 'room_number'], name='unique_hotel_room')
+        ]
+
 
 class Reservation(models.Model):
+    """Hotel room reservation object"""
     hotel = models.ForeignKey(
         Hotel, on_delete=models.CASCADE)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
