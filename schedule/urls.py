@@ -1,5 +1,6 @@
-from cgitb import lookup
-from email.mime import base
+"""
+URL mapping for the schedule app.
+"""
 from rest_framework_nested import routers
 from . import views
 

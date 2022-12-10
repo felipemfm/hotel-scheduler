@@ -1,3 +1,6 @@
+"""
+Database models.
+"""
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -10,12 +13,11 @@ from django.contrib.auth.base_user import BaseUserManager
 
 
 class UserManager(BaseUserManager):
+    """Manage for users"""
     use_in_migrations = True
 
     def _create_user(self, username, email, password, **extra_fields):
-        """
-        Create and save a user with the given username, email, and password.
-        """
+        """Custom create user."""
         if not username:
             raise ValueError('The given username must be set')
         email = self.normalize_email(email)
@@ -26,11 +28,13 @@ class UserManager(BaseUserManager):
         return user
 
     def create_user(self, username, email=None, password=None, **extra_fields):
+        """Create, save and return a new user"""
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(username, email, password, **extra_fields)
 
     def create_superuser(self, username, email, password, **extra_fields):
+        """Create and return a new superuser"""
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -43,11 +47,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    """
-    An abstract base class implementing a fully featured User model with
-    admin-compliant permissions.
-    Username and password are required. Other fields are optional.
-    """
+    """User in the system."""
     username_validator = UnicodeUsernameValidator()
 
     username = models.CharField(
